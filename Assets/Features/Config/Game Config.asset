@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89df5d7d42414bce92718fe6f742690c, type: 3}
+  m_Name: Game Config
+  m_EditorClassIdentifier: 
+  _boardSize: {x: 6, y: 5}
+  minAmountOfRows: 3
+  mediumAmountOfRows: 6
+  maxAmountOfRows: 8
+  bubbleSprites:
+  - number: 2
+    sprite: {fileID: 21300000, guid: ee0d632f6e7d54e68a9a6fd792384262, type: 3}
+  - number: 4
+    sprite: {fileID: 21300000, guid: 18888073e206b40a0bff8d71278a9ba7, type: 3}
+  - number: 8
+    sprite: {fileID: 21300000, guid: 51019f3df569743919c521fa91edb9f4, type: 3}
+  - number: 16
+    sprite: {fileID: 21300000, guid: fef52a75db5a349b2ab60f84da99fcca, type: 3}
+  - number: 32
+    sprite: {fileID: 21300000, guid: f00c8a19d2e2642b289d6d0f360627fd, type: 3}
+  - number: 64
+    sprite: {fileID: 21300000, guid: 6ad5ca3207a6942e69247c9a7f06b5c3, type: 3}
+  - number: 128
+    sprite: {fileID: 21300000, guid: 91549090a5843408380c579d366f84b2, type: 3}
+  - number: 256
+    sprite: {fileID: 21300000, guid: 730aba4d7656048d18fbaf7f4002abec, type: 3}
+  - number: 512
+    sprite: {fileID: 21300000, guid: d5cf1850e53a2470f9df03352a7a286c, type: 3}
+  - number: 1024
+    sprite: {fileID: 21300000, guid: 08363493413524985a510cb4536285e4, type: 3}
+  - number: 2048
+    sprite: {fileID: 21300000, guid: 26c6cead996d84bccae936ff3978e1b2, type: 3}
+  bubbleSize: 1.2
+  movementSpeed: 30
+  mergeTimeInSeconds: 0.3
