@@ -4,16 +4,16 @@ using UnityEngine;
 
 public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
 {
-    readonly Contexts _contexts;
-    private readonly IGroup<GameEntity> _launcher;
-    private readonly IGroup<GameEntity> _preview;
+    readonly Contexts contexts;
+    private readonly IGroup<GameEntity> launcher;
+    private readonly IGroup<GameEntity> bubblePreview;
     private const int maxStepDistance = 200;
 
     public CalculateTrajectorySystem(Contexts contexts) : base(contexts.input)
     {
-        _contexts = contexts;
-        _launcher = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Launcher));
-        _preview = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.BubblePreview));
+        this.contexts = contexts;
+        launcher = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Launcher));
+        bubblePreview = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.BubblePreview));
     }
 
     protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context)
@@ -26,8 +26,8 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         var inputEntity = entities.SingleEntity();
         var input = inputEntity.isInput;
         
-        var launcherEntity = _launcher.GetSingleEntity();
-        var previewEntity = _preview.GetSingleEntity();
+        var launcherEntity = launcher.GetSingleEntity();
+        var previewEntity = bubblePreview.GetSingleEntity();
 
         var launcherPosition = launcherEntity.transformPosition.value;
         var direction = inputEntity.mouseDown.value.value - launcherPosition;
@@ -110,7 +110,7 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         if (hitPointPosition.x > hitBubblePosition.x && hitPointPosition.y > hitBubblePosition.y)
         {
             bubblePreviewCoor.x += 2;
-            if (_contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
+            if (contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
             {
                 bubblePreviewCoor = bubbleCoor;
                 bubblePreviewCoor.x += 1;
@@ -122,7 +122,7 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         if (hitPointPosition.x <= hitBubblePosition.x && hitPointPosition.y > hitBubblePosition.y)
         {
             bubblePreviewCoor.x -= 2;
-            if (_contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
+            if (contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
             {
                 bubblePreviewCoor = bubbleCoor;
                 bubblePreviewCoor.x -= 1;
@@ -135,7 +135,7 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         {
             bubblePreviewCoor.x += 1;
             bubblePreviewCoor.y += 1;
-            if (_contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
+            if (contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
             {
                 bubblePreviewCoor = bubbleCoor;
                 bubblePreviewCoor.x -= 1;
@@ -148,7 +148,7 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         {
             bubblePreviewCoor.x -= 1;
             bubblePreviewCoor.y += 1;
-            if (_contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
+            if (contexts.game.GetBubbleWithPosition(bubblePreviewCoor) != null)
             {
                 bubblePreviewCoor = bubbleCoor;
                 bubblePreviewCoor.x += 1;

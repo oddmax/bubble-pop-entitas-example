@@ -3,16 +3,16 @@ using Entitas;
 
 public sealed class ScoreSystem : ReactiveSystem<GameEntity>, IInitializeSystem
 {
-    readonly Contexts _contexts;
+    readonly Contexts contexts;
 
     public ScoreSystem(Contexts contexts) : base(contexts.game)
     {
-        _contexts = contexts;
+        this.contexts = contexts;
     }
 
     public void Initialize()
     {
-        _contexts.gameState.SetScore(0);
+        contexts.gameState.SetScore(0);
     }
 
     protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -22,6 +22,6 @@ public sealed class ScoreSystem : ReactiveSystem<GameEntity>, IInitializeSystem
 
     protected override void Execute(List<GameEntity> entities)
     {
-        _contexts.gameState.ReplaceScore(_contexts.gameState.score.value + entities.Count);
+        contexts.gameState.ReplaceScore(contexts.gameState.score.value + entities.Count);
     }
 }

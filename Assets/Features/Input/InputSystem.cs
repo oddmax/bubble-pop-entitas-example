@@ -3,20 +3,20 @@ using UnityEngine;
 
 public sealed class InputSystem : IExecuteSystem, IInitializeSystem
 {
-    readonly Contexts _contexts;
-    private InputEntity _inputEntity;
+    readonly Contexts contexts;
+    private InputEntity inputEntity;
     private Vector3 prevMousePos;
     private bool isTouchInProgress;
 
     public InputSystem(Contexts contexts)
     {
-        _contexts = contexts;
+        this.contexts = contexts;
     }
     
     public void Initialize()
     {
-        _contexts.input.isInput = true;
-        _inputEntity = _contexts.input.inputEntity;
+        contexts.input.isInput = true;
+        inputEntity = contexts.input.inputEntity;
     }
 
     public void Execute()
@@ -29,7 +29,7 @@ public sealed class InputSystem : IExecuteSystem, IInitializeSystem
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            _contexts.input.isBurstMode = !_contexts.input.isBurstMode;
+            contexts.input.isBurstMode = !contexts.input.isBurstMode;
         }
     }
 
@@ -43,21 +43,21 @@ public sealed class InputSystem : IExecuteSystem, IInitializeSystem
         if (Input.GetMouseButtonDown(0))
         {
             isTouchInProgress = true;
-            _inputEntity.AddMouseDown(new Features.Input.MouseDownComponent { value = pos });
+            inputEntity.AddMouseDown(new Features.Input.MouseDownComponent { value = pos });
         }
 
         if (prevMousePos != pos && isTouchInProgress)
         {
-            _inputEntity.ReplaceMouseDown(new Features.Input.MouseDownComponent { value = pos });
+            inputEntity.ReplaceMouseDown(new Features.Input.MouseDownComponent { value = pos });
         }
         
         if (Input.GetMouseButtonUp(0))
         {
             isTouchInProgress = false;
-            if(_inputEntity.hasMouseDown)
-                _inputEntity.RemoveMouseDown();
+            if(inputEntity.hasMouseDown)
+                inputEntity.RemoveMouseDown();
             
-            _inputEntity.ReplaceMouseUp(new Features.Input.MouseUpComponent { value = pos });
+            inputEntity.ReplaceMouseUp(new Features.Input.MouseUpComponent { value = pos });
         }
     }
 

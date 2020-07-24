@@ -4,15 +4,13 @@ using UnityEngine;
 
 public sealed class AddBubbleViewSystem : ReactiveSystem<GameEntity>
 {
-    readonly Transform _boardParent;
-    readonly Transform _previewParent;
-    private readonly BubbleSprite[] _bubbleSprites;
+    readonly Transform boardParent;
+    private readonly BubbleSprite[] bubbleSprites;
 
     public AddBubbleViewSystem(Contexts contexts) : base(contexts.game)
     {
-        _boardParent = GameObject.FindWithTag("Board").transform;
-        _previewParent = GameObject.FindWithTag("Preview").transform;
-        _bubbleSprites = contexts.config.gameConfig.value.BubbleSprites;
+        boardParent = GameObject.FindWithTag("Board").transform;
+        bubbleSprites = contexts.config.gameConfig.value.BubbleSprites;
         
         contexts.game.isBubblePreview = true;
         var bubblePreviewEntity = contexts.game.bubblePreviewEntity;
@@ -20,7 +18,6 @@ public sealed class AddBubbleViewSystem : ReactiveSystem<GameEntity>
         bubblePreviewEntity.AddTransformPosition(GameObject.FindWithTag("Preview").transform.position);
         bubblePreviewEntity.AddVisible(false);
         
-        _previewParent = GameObject.FindWithTag("Preview").transform;
         contexts.game.isLauncher = true;
 
         contexts.game.CreateLauncherBubble();
@@ -45,8 +42,8 @@ public sealed class AddBubbleViewSystem : ReactiveSystem<GameEntity>
     IView instantiateView(GameEntity entity)
     {
         var prefab = Resources.Load<GameObject>(entity.asset.value);
-        var view = Object.Instantiate(prefab, _boardParent).GetComponent<IView>();
-        view.SetSpritesInfo(_bubbleSprites);
+        var view = Object.Instantiate(prefab, boardParent).GetComponent<IView>();
+        view.SetSpritesInfo(bubbleSprites);
         view.Link(entity);
         return view;
     }

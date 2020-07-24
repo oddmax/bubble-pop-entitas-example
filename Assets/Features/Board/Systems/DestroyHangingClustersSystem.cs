@@ -6,15 +6,15 @@ namespace Features.Board.Systems
 {
     public class DestroyHangingClustersSystem : ReactiveSystem<GameEntity>
     {
-        readonly Contexts _contexts;
-        private Vector2Int _boardSize;
-        private BoardComponent _board;
-        private IGroup<GameEntity> _bubbles;
+        readonly Contexts contexts;
+        private Vector2Int boardSize;
+        private BoardComponent board;
+        private IGroup<GameEntity> bubbles;
 
         public DestroyHangingClustersSystem(Contexts contexts) : base(contexts.game)
         {
-            _contexts = contexts;
-            _bubbles = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Bubble, GameMatcher.Position, GameMatcher.BubbleNumber));
+            this.contexts = contexts;
+            bubbles = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Bubble, GameMatcher.Position, GameMatcher.BubbleNumber));
         }
 
         protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -24,20 +24,20 @@ namespace Features.Board.Systems
 
         protected override void Execute(List<GameEntity> entities)
         {
-            _board = _contexts.game.board;
-            _boardSize = _contexts.config.gameConfig.value.boardSize;
+            board = contexts.game.board;
+            boardSize = contexts.config.gameConfig.value.boardSize;
             List<GameEntity> bubblesToCheck = new List<GameEntity>();
             MarkTopRowAsConnectedToTop(bubblesToCheck);
             MarkAllBubblesConnectedToTop(bubblesToCheck);
             DeleteHangingClusters();
 
-            _contexts.game.isBoardCleaningHangingClusters = false;
+            contexts.game.isBoardCleaningHangingClusters = false;
         }
 
         private void DeleteHangingClusters()
         {
             var bubblesToRemove = new List<GameEntity>();
-            foreach (var bubble in _bubbles)
+            foreach (var bubble in bubbles)
             {
                 if (bubble.isConnectedToTop)
                     bubble.isConnectedToTop = false;
@@ -54,11 +54,11 @@ namespace Features.Board.Systems
 
         private void MarkTopRowAsConnectedToTop(List<GameEntity> bubblesToCheck)
         {
-            BoardLogic.GetColumnStartEnd(0, _board.isFirstRowShifted, _boardSize.x, out var columnStart, out var columnEnd);
+            BoardLogic.GetColumnStartEnd(0, board.isFirstRowShifted, boardSize.x, out var columnStart, out var columnEnd);
 
             for (int x = columnStart; x < columnEnd; x += 2)
             {
-                var bubble = _contexts.game.GetBubbleWithPosition(new Vector2Int(x, 0));
+                var bubble = contexts.game.GetBubbleWithPosition(new Vector2Int(x, 0));
                 if(bubble == null)
                     continue;
                 bubble.isConnectedToTop = true;
@@ -76,7 +76,7 @@ namespace Features.Board.Systems
                     foreach (var bubbleNeighboursOffset in BoardLogic.BubbleNeighboursOffsets)
                     {
                         var neighbour =
-                            _contexts.game.GetBubbleWithPosition(bubbleToCheck.position.value + bubbleNeighboursOffset);
+                            contexts.game.GetBubbleWithPosition(bubbleToCheck.position.value + bubbleNeighboursOffset);
                         
                         if (neighbour == null || neighbour.isConnectedToTop)
                             continue;

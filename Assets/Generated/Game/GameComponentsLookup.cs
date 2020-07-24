@@ -23,29 +23,27 @@ public static class GameComponentsLookup {
     public const int Falling = 12;
     public const int FallingListener = 13;
     public const int FlyingBubble = 14;
-    public const int Interactive = 15;
-    public const int LaunchBubble = 16;
-    public const int Launcher = 17;
-    public const int LauncherTrajectory = 18;
-    public const int LauncherTrajectoryListener = 19;
-    public const int Merge = 20;
-    public const int MergeTarget = 21;
-    public const int MergeTargetListener = 22;
-    public const int Movable = 23;
-    public const int MoveComplete = 24;
-    public const int NewBubble = 25;
-    public const int Particle = 26;
-    public const int Position = 27;
-    public const int PositionListener = 28;
-    public const int StartPosition = 29;
-    public const int TextSpawn = 30;
-    public const int TransformPosition = 31;
-    public const int TransformPositionListener = 32;
-    public const int View = 33;
-    public const int Visible = 34;
-    public const int VisibleListener = 35;
+    public const int LaunchBubble = 15;
+    public const int Launcher = 16;
+    public const int LauncherTrajectory = 17;
+    public const int LauncherTrajectoryListener = 18;
+    public const int Merge = 19;
+    public const int MergeTarget = 20;
+    public const int MergeTargetListener = 21;
+    public const int MoveComplete = 22;
+    public const int NewBubble = 23;
+    public const int Particle = 24;
+    public const int Position = 25;
+    public const int PositionListener = 26;
+    public const int StartPosition = 27;
+    public const int TextSpawn = 28;
+    public const int TransformPosition = 29;
+    public const int TransformPositionListener = 30;
+    public const int View = 31;
+    public const int Visible = 32;
+    public const int VisibleListener = 33;
 
-    public const int TotalComponents = 36;
+    public const int TotalComponents = 34;
 
     public static readonly string[] componentNames = {
         "AnyCameraShakeListener",
@@ -63,7 +61,6 @@ public static class GameComponentsLookup {
         "Falling",
         "FallingListener",
         "FlyingBubble",
-        "Interactive",
         "LaunchBubble",
         "Launcher",
         "LauncherTrajectory",
@@ -71,7 +68,6 @@ public static class GameComponentsLookup {
         "Merge",
         "MergeTarget",
         "MergeTargetListener",
-        "Movable",
         "MoveComplete",
         "NewBubble",
         "Particle",
@@ -102,7 +98,6 @@ public static class GameComponentsLookup {
         typeof(FallingComponent),
         typeof(FallingListenerComponent),
         typeof(FlyingBubbleComponent),
-        typeof(InteractiveComponent),
         typeof(LaunchBubbleComponent),
         typeof(LauncherComponent),
         typeof(LauncherTrajectoryComponent),
@@ -110,7 +105,6 @@ public static class GameComponentsLookup {
         typeof(MergeComponent),
         typeof(MergeTargetComponent),
         typeof(MergeTargetListenerComponent),
-        typeof(MovableComponent),
         typeof(MoveCompleteComponent),
         typeof(NewBubbleComponent),
         typeof(ParticleComponent),

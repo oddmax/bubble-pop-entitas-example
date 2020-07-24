@@ -7,14 +7,14 @@ namespace Features.Board.Systems
     public class MoveRowsSystem : ReactiveSystem<GameEntity>
     {
         private readonly Contexts contexts;
-        private IGroup<GameEntity> _bubbles;
+        private IGroup<GameEntity> bubbles;
         private IGameConfig gameConfig;
 
         public MoveRowsSystem(Contexts contexts) : base(contexts.game)
         {
             this.contexts = contexts;
             gameConfig = contexts.config.gameConfig.value;
-            _bubbles = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Bubble, GameMatcher.Position, GameMatcher.BubbleNumber));
+            bubbles = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Bubble, GameMatcher.Position, GameMatcher.BubbleNumber));
         }
 
         protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -68,7 +68,7 @@ namespace Features.Board.Systems
         {
             Vector2Int position;
             var bubblesToRemove = new List<GameEntity>();
-            foreach (var bubble in _bubbles)
+            foreach (var bubble in bubbles)
             {
                 position = bubble.position.value;
                 position.y += rowsToAdd;
@@ -101,7 +101,7 @@ namespace Features.Board.Systems
         private int GetCurrentAmountOfRows()
         {
             var rowsAmount = 0;
-            foreach (var bubble in _bubbles)
+            foreach (var bubble in bubbles)
             {
                 if (bubble.position.value.y > rowsAmount)
                     rowsAmount = bubble.position.value.y;

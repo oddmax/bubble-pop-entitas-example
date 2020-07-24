@@ -9,18 +9,18 @@ namespace Features.Launcher
     public class LaunchBubbleSystem : ReactiveSystem<InputEntity>
     {
         readonly Contexts contexts;
-        private readonly IGroup<GameEntity> _launcher;
-        private readonly IGroup<GameEntity> _preview;
-        private readonly IGroup<GameEntity> _bubbleToLaunch;
+        private readonly IGroup<GameEntity> launcher;
+        private readonly IGroup<GameEntity> preview;
+        private readonly IGroup<GameEntity> bubbleToLaunch;
         private GameEntity  flyingBubble;
         private const int maxStepDistance = 200;
 
         public LaunchBubbleSystem(Contexts contexts) : base(contexts.input)
         {
             this.contexts = contexts;
-            _launcher = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Launcher));
-            _preview = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.BubblePreview));
-            _bubbleToLaunch = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.LaunchBubble, GameMatcher.BubbleNumber, GameMatcher.TransformPosition));
+            launcher = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Launcher));
+            preview = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.BubblePreview));
+            bubbleToLaunch = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.LaunchBubble, GameMatcher.BubbleNumber, GameMatcher.TransformPosition));
         }
 
         protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context)
@@ -33,10 +33,10 @@ namespace Features.Launcher
             var inputEntity = entities.SingleEntity();
             var input = inputEntity.isInput;
         
-            var launcherEntity = _launcher.GetSingleEntity();
-            var previewEntity = _preview.GetSingleEntity();
+            var launcherEntity = launcher.GetSingleEntity();
+            var previewEntity = preview.GetSingleEntity();
 
-            flyingBubble = _bubbleToLaunch.GetSingleEntity();
+            flyingBubble = bubbleToLaunch.GetSingleEntity();
 
             if (flyingBubble != null && flyingBubble.isLaunchBubble)
             {

@@ -44,13 +44,9 @@ namespace Features.Board.Systems
                 contexts.gameState.ReplaceScore(contexts.gameState.score.value + mergeProgressMergeNumber);
 
                 if (newBubble != null)
-                {
                     newBubble.isNewBubble = true;
-                }
                 else
-                {
                     contexts.game.isMoveComplete = true;
-                }
             }
         }
 

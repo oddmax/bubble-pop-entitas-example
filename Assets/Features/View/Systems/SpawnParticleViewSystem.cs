@@ -7,13 +7,13 @@ namespace Features.View
 {
     public class SpawnParticleViewSystem : ReactiveSystem<GameEntity>
     {
-        readonly Transform _previewParent;
-        private readonly BubbleSprite[] _bubbleSprites;
+        readonly Transform parent;
+        private readonly BubbleSprite[] bubbleSprites;
 
         public SpawnParticleViewSystem(Contexts contexts) : base(contexts.game)
         {
-            _previewParent = GameObject.FindWithTag("Board").transform;
-            _bubbleSprites = contexts.config.gameConfig.value.BubbleSprites;
+            parent = GameObject.FindWithTag("Board").transform;
+            bubbleSprites = contexts.config.gameConfig.value.BubbleSprites;
         }
 
         protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
@@ -30,9 +30,9 @@ namespace Features.View
         void SpawnEffect(GameEntity entity)
         {
             var prefab = Resources.Load<GameObject>(entity.asset.value);
-            var gameObject = Object.Instantiate(prefab, _previewParent);
+            var gameObject = Object.Instantiate(prefab, parent);
             var view = gameObject.GetComponent<ParticleEffectView>();
-            view.SetSpritesInfo(_bubbleSprites);
+            view.SetSpritesInfo(bubbleSprites);
             view.bubbleNumber = entity.bubbleNumber.Number;
             view.Show();
             Vector3 position = entity.transformPosition.value;
