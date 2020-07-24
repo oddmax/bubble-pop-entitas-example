@@ -2,7 +2,7 @@
 
 A simple bubble pop game demonstrating ECS architecture based on Entitas
 
-![Screenshot 2020-07-24 at 13 47 45](https://user-images.githubusercontent.com/2452120/88388438-d5067900-cdb4-11ea-9328-d300e62c461e.png)
+![Screenshot 2020-07-24 at 13 53 29](https://user-images.githubusercontent.com/2452120/88388666-421a0e80-cdb5-11ea-9dab-1724cb401e10.png)
 
 Features:
 * Board which moves up and down depending of how many rows are present on the screen
