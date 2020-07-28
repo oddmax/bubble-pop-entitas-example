@@ -10,3 +10,10 @@ Features:
 * Merge always go in direction of possible next automatic merge
 * Bubbles clusters not connected to the top row will fall
 * Simple particle effects, trails and animations are present
+* Settings file under Features/Config/Game Config has settings:
+** Board size
+** Maximum amount of bounces
+** When board should move up or down
+** Bubble movement speed
+** Merge speed
+** Bubbles sprites
