@@ -45,9 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LineRenderer: {fileID: 6767800033918426661}
-  isReflected: 0
-  ReflectionPoint: {x: 0, y: 0}
-  TargetPoint: {x: 0, y: 0}
 --- !u!120 &6767800033918426661
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -87,7 +84,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 7.54, y: 0, z: 1}

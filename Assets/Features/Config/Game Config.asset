@@ -42,3 +42,4 @@ MonoBehaviour:
   bubbleSize: 1.2
   movementSpeed: 30
   mergeTimeInSeconds: 0.3
+  maxAmountOfReflections: 1

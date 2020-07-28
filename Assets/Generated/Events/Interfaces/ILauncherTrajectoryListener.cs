@@ -7,5 +7,5 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 public interface ILauncherTrajectoryListener {
-    void OnLauncherTrajectory(GameEntity entity, bool isReflected, UnityEngine.Vector2 reflectionPoint, UnityEngine.Vector2 targetPoint, UnityEngine.Vector2 targetBubbleCoordinates);
+    void OnLauncherTrajectory(GameEntity entity, UnityEngine.Vector2 targetBubbleCoordinates, UnityEngine.Vector2[] shownTrajectoryPointsArray, UnityEngine.Vector2[] actualTrajectoryPointsArray);
 }

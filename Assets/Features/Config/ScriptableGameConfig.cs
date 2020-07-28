@@ -43,6 +43,11 @@ public class ScriptableGameConfig : ScriptableObject, IGameConfig
     private float mergeTimeInSeconds;
     
     public float MergeTimeInSeconds => mergeTimeInSeconds;
+    
+    [SerializeField]
+    private int maxAmountOfReflections;
+    
+    public int MaxAmountOfReflections  => maxAmountOfReflections;
 }
 
 [Serializable]

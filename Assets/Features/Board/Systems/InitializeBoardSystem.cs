@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using Entitas;
+﻿using Entitas;
 
-public sealed class BoardSystem : ReactiveSystem<GameEntity>, IInitializeSystem
+public sealed class InitializeBoardSystem : IInitializeSystem
 {
     readonly Contexts contexts;
-    readonly IGroup<GameEntity> bubbles;
 
-    public BoardSystem(Contexts contexts) : base(contexts.game)
+    public InitializeBoardSystem(Contexts contexts)
     {
         this.contexts = contexts;
-        bubbles = contexts.game.GetGroup(GameMatcher.AllOf(GameMatcher.Bubble, GameMatcher.Position));
     }
 
     public void Initialize()
@@ -27,14 +24,5 @@ public sealed class BoardSystem : ReactiveSystem<GameEntity>, IInitializeSystem
                 contexts.game.CreateRandomBoardBubble(x, y);
             }
         }
-    }
-
-    protected override ICollector<GameEntity> GetTrigger(IContext<GameEntity> context)
-        => context.CreateCollector(GameMatcher.Board);
-
-    protected override bool Filter(GameEntity entity) => entity.hasBoard;
-
-    protected override void Execute(List<GameEntity> entities)
-    {
     }
 }

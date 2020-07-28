@@ -30,7 +30,7 @@ public sealed class LauncherTrajectoryEventSystem : Entitas.ReactiveSystem<GameE
             _listenerBuffer.Clear();
             _listenerBuffer.AddRange(e.launcherTrajectoryListener.value);
             foreach (var listener in _listenerBuffer) {
-                listener.OnLauncherTrajectory(e, component.isReflected, component.ReflectionPoint, component.TargetPoint, component.TargetBubbleCoordinates);
+                listener.OnLauncherTrajectory(e, component.TargetBubbleCoordinates, component.shownTrajectoryPointsArray, component.actualTrajectoryPointsArray);
             }
         }
     }

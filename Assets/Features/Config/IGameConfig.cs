@@ -16,4 +16,6 @@ public interface IGameConfig
     float MovementSpeed { get; }
     
     float MergeTimeInSeconds { get; }
+    
+    int MaxAmountOfReflections { get; }
 }

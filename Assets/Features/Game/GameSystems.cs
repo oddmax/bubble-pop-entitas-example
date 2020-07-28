@@ -11,13 +11,14 @@ public sealed class GameSystems : Feature
         Add(new CalculateTrajectorySystem(contexts));
 
         // Update
-        Add(new BoardSystem(contexts));
+        Add(new TimerSystem(contexts));
+        Add(new InitializeBoardSystem(contexts));
         Add(new ScoreSystem(contexts));
-        Add(new MergeSystem(contexts));
         Add(new LaunchBubbleSystem(contexts));
+        Add(new FlyingBubblePositionUpdateSystem(contexts));
+        Add(new MergeSystem(contexts));
         Add(new CompleteMergeSystem(contexts));
         Add(new DestroyHangingClustersSystem(contexts));
-        Add(new TimerSystem(contexts));
         Add(new MoveRowsSystem(contexts));
 
         // View

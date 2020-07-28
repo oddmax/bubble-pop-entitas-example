@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Entitas;
+using Features.Pieces;
 using UnityEngine;
 
 public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
@@ -39,47 +40,48 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
     {
         bool isReflected = false;
         bool isHitBubble = false;
-        Vector2 ReflectionPoint = new Vector2();
         Vector2 TargetPoint = new Vector2();
         Vector2Int HitBubblePosition = new Vector2Int();
         Vector2 HitBubbleTransformPosition = new Vector2();
 
         var startingPosition = position;
-    
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, maxStepDistance);
-        if (hit.collider != null)
+        var reflectionCount = 0;
+        var collisionPoints = new List<Vector2>();
+        collisionPoints.Add(startingPosition);
+
+        while (reflectionCount <= contexts.config.gameConfig.value.MaxAmountOfReflections)
         {
+            var hit = Physics2D.Raycast(position, direction, maxStepDistance);
+            if (hit.collider == null)
+                break;
+
             if (hit.collider.tag == "Bubble")
             {
                 TargetPoint = hit.point;
                 HitBubblePosition = hit.collider.gameObject.GetComponent<BoardBubbleView>().bubblePosition;
                 HitBubbleTransformPosition = hit.collider.transform.position;
                 isHitBubble = true;
+                collisionPoints.Add(HitBubbleTransformPosition);
+                break;
             }
-            else if (hit.collider.tag == "Wall")
+            
+            if (hit.collider.tag == "Wall")
             {
                 direction = Vector2.Reflect(direction, hit.normal);
                 position = hit.point;
-                isReflected = true;
-                ReflectionPoint = position;
                 
+                //small adjustment so we not stuck in the wall
                 if (position.x < startingPosition.x)
                     position.x += 0.01f;
     
                 if (position.x > startingPosition.x)
                     position.x -= 0.01f;
-            
-                RaycastHit2D secondHit = Physics2D.Raycast(position, direction, maxStepDistance);
-                if (secondHit.collider != null && secondHit.collider.tag == "Bubble")
-                {
-                    TargetPoint = secondHit.point;
-                    HitBubblePosition = secondHit.collider.gameObject.GetComponent<BoardBubbleView>().bubblePosition;
-                    HitBubbleTransformPosition = secondHit.collider.transform.position;
-                    isHitBubble = true;
-                }
+                
+                collisionPoints.Add(hit.point);
+                reflectionCount++;
             }
-        }
-
+        }        
+        
         if (isHitBubble == false)
         {
             launcherEntity.ReplaceVisible(false);
@@ -87,22 +89,25 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         }
         else
         {
-            launcherEntity.ReplaceLauncherTrajectory(isReflected, ReflectionPoint, TargetPoint, HitBubbleTransformPosition);
-            Vector2Int previewBubbleNewPosition = CalculateNewPreviewBubblePosition(HitBubblePosition, HitBubbleTransformPosition, TargetPoint);
+            var newBubblePosition = CalculateNewBubblePosition(HitBubblePosition, HitBubbleTransformPosition, TargetPoint);
+            
+            var shownTrajectory = collisionPoints.ToArray();
+            var flyingTrajectory = collisionPoints.ToArray();
+            flyingTrajectory[flyingTrajectory.Length-1] = GameObject.FindWithTag("Board").transform.TransformPoint(CoordinatesConverter.Convert(newBubblePosition, contexts.config.gameConfig.value.BubbleSize));
+            launcherEntity.ReplaceLauncherTrajectory(TargetPoint, shownTrajectory, flyingTrajectory);
+            
             if (!previewEntity.hasPosition)
-            {
-                previewEntity.AddPosition(previewBubbleNewPosition);
-            }
-            if (previewEntity.hasPosition && previewEntity.position.value != previewBubbleNewPosition)
-            {
-                 previewEntity.ReplacePosition(previewBubbleNewPosition);
-            }
+                previewEntity.AddPosition(newBubblePosition);
+            
+            if (previewEntity.hasPosition && previewEntity.position.value != newBubblePosition)
+                 previewEntity.ReplacePosition(newBubblePosition);
+            
             launcherEntity.ReplaceVisible(true);
             previewEntity.ReplaceVisible(true);
         } 
     }
 
-    private Vector2Int CalculateNewPreviewBubblePosition(Vector2Int bubbleCoor, Vector2 hitBubblePosition,
+    private Vector2Int CalculateNewBubblePosition(Vector2Int bubbleCoor, Vector2 hitBubblePosition,
         Vector2 hitPointPosition)
     {
         Vector2Int bubblePreviewCoor = bubbleCoor; 

@@ -11,23 +11,21 @@ public partial class GameEntity {
     public LauncherTrajectoryComponent launcherTrajectory { get { return (LauncherTrajectoryComponent)GetComponent(GameComponentsLookup.LauncherTrajectory); } }
     public bool hasLauncherTrajectory { get { return HasComponent(GameComponentsLookup.LauncherTrajectory); } }
 
-    public void AddLauncherTrajectory(bool newIsReflected, UnityEngine.Vector2 newReflectionPoint, UnityEngine.Vector2 newTargetPoint, UnityEngine.Vector2 newTargetBubbleCoordinates) {
+    public void AddLauncherTrajectory(UnityEngine.Vector2 newTargetBubbleCoordinates, UnityEngine.Vector2[] newShownTrajectoryPointsArray, UnityEngine.Vector2[] newActualTrajectoryPointsArray) {
         var index = GameComponentsLookup.LauncherTrajectory;
         var component = (LauncherTrajectoryComponent)CreateComponent(index, typeof(LauncherTrajectoryComponent));
-        component.isReflected = newIsReflected;
-        component.ReflectionPoint = newReflectionPoint;
-        component.TargetPoint = newTargetPoint;
         component.TargetBubbleCoordinates = newTargetBubbleCoordinates;
+        component.shownTrajectoryPointsArray = newShownTrajectoryPointsArray;
+        component.actualTrajectoryPointsArray = newActualTrajectoryPointsArray;
         AddComponent(index, component);
     }
 
-    public void ReplaceLauncherTrajectory(bool newIsReflected, UnityEngine.Vector2 newReflectionPoint, UnityEngine.Vector2 newTargetPoint, UnityEngine.Vector2 newTargetBubbleCoordinates) {
+    public void ReplaceLauncherTrajectory(UnityEngine.Vector2 newTargetBubbleCoordinates, UnityEngine.Vector2[] newShownTrajectoryPointsArray, UnityEngine.Vector2[] newActualTrajectoryPointsArray) {
         var index = GameComponentsLookup.LauncherTrajectory;
         var component = (LauncherTrajectoryComponent)CreateComponent(index, typeof(LauncherTrajectoryComponent));
-        component.isReflected = newIsReflected;
-        component.ReflectionPoint = newReflectionPoint;
-        component.TargetPoint = newTargetPoint;
         component.TargetBubbleCoordinates = newTargetBubbleCoordinates;
+        component.shownTrajectoryPointsArray = newShownTrajectoryPointsArray;
+        component.actualTrajectoryPointsArray = newActualTrajectoryPointsArray;
         ReplaceComponent(index, component);
     }
 
