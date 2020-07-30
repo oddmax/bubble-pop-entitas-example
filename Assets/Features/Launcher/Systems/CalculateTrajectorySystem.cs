@@ -40,9 +40,9 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
     {
         bool isReflected = false;
         bool isHitBubble = false;
-        Vector2 TargetPoint = new Vector2();
-        Vector2Int HitBubblePosition = new Vector2Int();
-        Vector2 HitBubbleTransformPosition = new Vector2();
+        Vector2 hitPoint = new Vector2();
+        Vector2Int hitBubblePosition = new Vector2Int();
+        Vector2 hitBubbleTransformPosition = new Vector2();
 
         var startingPosition = position;
         var reflectionCount = 0;
@@ -57,11 +57,11 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
 
             if (hit.collider.tag == "Bubble")
             {
-                TargetPoint = hit.point;
-                HitBubblePosition = hit.collider.gameObject.GetComponent<BoardBubbleView>().bubblePosition;
-                HitBubbleTransformPosition = hit.collider.transform.position;
+                hitPoint = hit.point;
+                hitBubblePosition = hit.collider.gameObject.GetComponent<BoardBubbleView>().bubblePosition;
+                hitBubbleTransformPosition = hit.collider.transform.position;
                 isHitBubble = true;
-                collisionPoints.Add(HitBubbleTransformPosition);
+                collisionPoints.Add(hitPoint);
                 break;
             }
             
@@ -77,7 +77,7 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
                 if (position.x > startingPosition.x)
                     position.x -= 0.01f;
                 
-                collisionPoints.Add(hit.point);
+                collisionPoints.Add(position);
                 reflectionCount++;
             }
         }        
@@ -89,12 +89,12 @@ public sealed class CalculateTrajectorySystem : ReactiveSystem<InputEntity>
         }
         else
         {
-            var newBubblePosition = CalculateNewBubblePosition(HitBubblePosition, HitBubbleTransformPosition, TargetPoint);
+            var newBubblePosition = CalculateNewBubblePosition(hitBubblePosition, hitBubbleTransformPosition, hitPoint);
             
             var shownTrajectory = collisionPoints.ToArray();
             var flyingTrajectory = collisionPoints.ToArray();
             flyingTrajectory[flyingTrajectory.Length-1] = GameObject.FindWithTag("Board").transform.TransformPoint(CoordinatesConverter.Convert(newBubblePosition, contexts.config.gameConfig.value.BubbleSize));
-            launcherEntity.ReplaceLauncherTrajectory(TargetPoint, shownTrajectory, flyingTrajectory);
+            launcherEntity.ReplaceLauncherTrajectory(hitPoint, shownTrajectory, flyingTrajectory);
             
             if (!previewEntity.hasPosition)
                 previewEntity.AddPosition(newBubblePosition);
